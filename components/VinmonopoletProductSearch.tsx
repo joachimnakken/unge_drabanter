@@ -1,5 +1,6 @@
 import { SyntheticEvent, useReducer, useState } from "react";
 import Image from "next/image";
+import clsx from "clsx";
 
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -8,12 +9,14 @@ import { useGetVinmonopoletProductsQuery } from "../store/features/vinmonopolet"
 const VinmonopoletProductSearch = () => {
   const [searchString, setSearchString] = useState("");
   const [page, setPage] = useReducer(
-    (state: number, action: "next" | "previous") => {
+    (state: number, action: "next" | "previous" | "reset") => {
       switch (action) {
         case "next":
           return state + 1;
         case "previous":
           return Math.max(state - 1, 1);
+        case "reset":
+          return 1;
         default:
           return state;
       }
@@ -34,6 +37,7 @@ const VinmonopoletProductSearch = () => {
     };
 
     setSearchString(target.search.value);
+    setPage("reset");
   };
 
   return (
@@ -60,21 +64,21 @@ const VinmonopoletProductSearch = () => {
       {vinmonopoletProducts.length !== 0 && (
         <div className="col-span-full">
           <section className="flex justify-between p-4 bg-white rounded shadow-lg">
-            {page > 1 ? (
-              <button onClick={() => setPage("previous")}>
-                <FaArrowLeft />
-              </button>
-            ) : (
-              <div />
-            )}
+            <button
+              onClick={() => setPage("previous")}
+              className={clsx({ invisible: page === 1 })}
+            >
+              <FaArrowLeft />
+            </button>
+
             <div>Page {page}</div>
-            {vinmonopoletProducts.length === 5 ? (
-              <button onClick={() => setPage("next")}>
-                <FaArrowRight />
-              </button>
-            ) : (
-              <div />
-            )}
+
+            <button
+              onClick={() => setPage("next")}
+              className={clsx({ invisible: vinmonopoletProducts.length !== 5 })}
+            >
+              <FaArrowRight />
+            </button>
           </section>
         </div>
       )}
