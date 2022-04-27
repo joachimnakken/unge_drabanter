@@ -31,7 +31,13 @@ export default async function handler(
         "Ocp-Apim-Subscription-Key": process.env.VINMONOPOLET_API_KEY as string,
       },
     }
-  ).then((response) => response.json());
+  ).then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      return [];
+    }
+  });
 
   const resultsWithImages: VinmonopoletProductWithImage[] = results.map(
     (result) => ({

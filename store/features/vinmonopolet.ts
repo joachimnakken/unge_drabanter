@@ -18,6 +18,7 @@ export const vinmonopoletApi = createApi({
     >({
       query: ({ name, limit = 10, skip = 0 }) =>
         `?name=${name.replaceAll(/ /g, "_")}&limit=${limit}&skip=${skip}`,
+      keepUnusedDataFor: 60 * 60 * 24,
     }),
   }),
 });

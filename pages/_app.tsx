@@ -8,7 +8,9 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Component {...pageProps} />
+      <div className="flex flex-col h-screen">
+        <Component {...pageProps} />
+      </div>
     </Provider>
   );
 }
