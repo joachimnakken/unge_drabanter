@@ -32,7 +32,6 @@ const Login = () => {
       //Just a little hack.. im tired. Fix later.
       const { Aa: token = "" } = res.user;
 
-      console.log({ userrrr: res.user, docRef, token });
       await docRef.set({
         firstName,
         lastName,
