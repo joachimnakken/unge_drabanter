@@ -10,7 +10,7 @@ export const drabantApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "/api/drabants" }),
   endpoints: (builder) => ({
     getDrabants: builder.query<Drabant[], void>({
-      query: () => `drabants`,
+      query: () => ``,
     }),
   }),
 });
