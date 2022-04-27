@@ -6,7 +6,7 @@ interface Drabant {
 
 // Define a service using a base URL and expected endpoints
 export const drabantApi = createApi({
-  reducerPath: "pokemonApi",
+  reducerPath: "drabantApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/drabants" }),
   endpoints: (builder) => ({
     getDrabants: builder.query<Drabant[], void>({
