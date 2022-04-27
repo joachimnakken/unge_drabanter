@@ -16,7 +16,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const setPageLoading = useSetRecoilState(pageLoaderAtom);
 
-  const handleSubmit = async (e: Event) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || password.length <= 4) {
       setError("Feil i passord eller email");

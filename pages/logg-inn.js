@@ -12,7 +12,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const setPageLoading = useSetRecoilState(pageLoaderAtom);
 
-  const handleSubmit = async (e: Event) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || password.length <= 4) {
       setError("Feil i passord eller email");
@@ -21,9 +21,7 @@ const Login = () => {
     try {
       setIsLoading(true);
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      const idToken: String | null = await firebase
-        ?.auth()
-        .currentUser?.getIdToken(true);
+      const idToken = await firebase?.auth().currentUser?.getIdToken(true);
       await fetch("/api/login", {
         method: "POST",
         headers: {
