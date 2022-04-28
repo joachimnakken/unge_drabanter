@@ -1,6 +1,6 @@
 import { AuthAction, withAuthUserTokenSSR } from "next-firebase-auth";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import firebase from "../libs/fb";
 
@@ -16,7 +16,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const setPageLoading = useSetRecoilState(pageLoaderAtom);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || password.length <= 4) {
       setError("Feil i passord eller email");
@@ -24,14 +24,10 @@ const Login = () => {
     }
     try {
       setIsLoading(true);
-      const res = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
       var docRef = await db.collection("users").doc();
-
-      //Just a little hack.. im tired. Fix later.
-      const { Aa: token = "" } = res.user;
-
+      const idToken = await firebase?.auth()?.currentUser?.getIdToken(true);
+      if (!idToken) return;
       await docRef.set({
         firstName,
         lastName,
@@ -41,12 +37,12 @@ const Login = () => {
       await fetch("/api/login", {
         method: "POST",
         headers: {
-          Authorization: token,
+          Authorization: idToken,
         },
         credentials: "include",
       });
       router.push(`/app`);
-    } catch (err) {
+    } catch (err: any) {
       console.log({ err });
       setError(err.message);
     } finally {
