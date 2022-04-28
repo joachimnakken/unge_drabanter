@@ -9,6 +9,10 @@ import initAuth from "../initAuth";
 initAuth();
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // const logout = () => {
+  //   fetch("/api/logout");
+  // };
+
   return (
     <Provider store={store}>
       <div className="flex flex-col h-screen">

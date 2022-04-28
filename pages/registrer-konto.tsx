@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import firebase from "../libs/fb";
 
-var db = firebase.firestore();
+const db = firebase.firestore();
+
+// Github signup works. But might be missing some data(Like firstName, lastName), so I dont think it's worth it.
+// const provider = new firebase.auth.GithubAuthProvider();
 
 const Login = () => {
   const router = useRouter();
@@ -16,6 +19,48 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const setPageLoading = useSetRecoilState(pageLoaderAtom);
 
+  const createUser = async () => {
+    var docRef = await db.collection("users").doc();
+    const idToken = await firebase?.auth()?.currentUser?.getIdToken(true);
+    if (!idToken) return;
+    await docRef.set({
+      firstName,
+      lastName,
+      imageUrl: "",
+      id: docRef.id,
+    });
+
+    await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        Authorization: idToken,
+      },
+      credentials: "include",
+    });
+    router.push(`/app`);
+  };
+
+  // const signupWithGithub = async () => {
+  //   let imageUrl = "";
+
+  //   try {
+  //     setIsLoading(true);
+  //     const res = await firebase.auth().signInWithPopup(provider);
+  //     const email = res.user.email
+  //     console.log({ res });
+  //     imageUrl = res?.additionalUserInfo?.profile?.avatar_url as string;
+
+  //     // await createUser(imageUrl);
+  //   } catch (err: any) {
+  //     console.log({ err });
+  //     setError(err.message);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // --------------------------------------------------
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || password.length <= 4) {
@@ -25,23 +70,8 @@ const Login = () => {
     try {
       setIsLoading(true);
       await firebase.auth().createUserWithEmailAndPassword(email, password);
-      var docRef = await db.collection("users").doc();
-      const idToken = await firebase?.auth()?.currentUser?.getIdToken(true);
-      if (!idToken) return;
-      await docRef.set({
-        firstName,
-        lastName,
-        id: docRef.id,
-      });
 
-      await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          Authorization: idToken,
-        },
-        credentials: "include",
-      });
-      router.push(`/app`);
+      await createUser();
     } catch (err: any) {
       console.log({ err });
       setError(err.message);
@@ -84,6 +114,9 @@ const Login = () => {
         </button>
         {error && <div className="text-red"> {error}</div>}
       </form>
+      {/* <button onClick={() => signupWithGithub()}>
+        <div>Logg inn med Github</div>
+      </button> */}
     </div>
   );
 };
