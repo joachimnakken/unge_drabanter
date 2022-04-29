@@ -12,3 +12,10 @@ export interface VinmonopoletProduct {
 export interface VinmonopoletProductWithImage extends VinmonopoletProduct {
   imageUrl: string;
 }
+
+export interface UserDataInterface {
+  id: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+}

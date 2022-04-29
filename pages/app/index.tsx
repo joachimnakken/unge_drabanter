@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import type { NextPage } from "next";
 import {
   AuthAction,
@@ -5,44 +6,58 @@ import {
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import VinmonopoletProductSearch from "../../components/VinmonopoletProductSearch";
+import useAllRatings from "../../hooks/useAllRatings";
 
 import firebase from "../../libs/fb";
+import { UserDataInterface, VinmonopoletProductWithImage } from "../../types";
 
 var db = firebase.firestore();
 
 type AppProps = {
-  token: string | null;
+  userData: UserDataInterface;
 };
 
-const AuthedApp: NextPage<AppProps> = ({ token }) => {
-  const AuthUser = useAuthUser();
-  const [userData, setUserData] = useState<any>({});
+const AuthedApp: NextPage<AppProps> = ({ userData }) => {
+  const allMyRatings = useAllRatings(userData.id);
 
-  // Since we store token in cookie, we could do this on the server, but it's easier to do it on the client side for now
-  // This should be done with RTK, but just wanted to show how ez it is to fetch data.
+  const handleRateProduct = async (
+    product: VinmonopoletProductWithImage,
+    rating: Number
+  ) => {
+    const alreadyRatedProduct = allMyRatings.find(
+      (rating) => rating?.basic?.productId === product.basic.productId
+    );
 
-  useEffect(() => {
-    (async () => {
-      const userDocument = await db
-        .collection("/users")
-        .doc("3yZmuFEini8El4tqr7Za");
-      await userDocument
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            setUserData(doc.data());
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting document:", error);
-        });
-    })();
-  }, []);
+    const newRating = {
+      ...product,
+      rating,
+      ratedById: userData.id,
+      ratedFromGroupId: "",
+    };
+
+    if (
+      window.confirm(
+        `Are you sure you want to rate ${product.basic.productShortName} ${rating} stars?`
+      )
+    ) {
+      if (alreadyRatedProduct) {
+        await db
+          .collection("/ratings")
+          .doc(alreadyRatedProduct.id)
+          .update(newRating);
+      } else {
+        try {
+          const docRef = await db.collection("/ratings").doc();
+          docRef.set({ ...newRating, id: docRef.id });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+  };
+
+  console.log({ allMyRatings });
 
   return (
     <>
@@ -55,7 +70,10 @@ const AuthedApp: NextPage<AppProps> = ({ token }) => {
       <main className="space-y-4 bg-slate-300 grow">
         <h1>Hei, {userData.firstName}</h1>
         <section className="p-4">
-          <VinmonopoletProductSearch />
+          <VinmonopoletProductSearch
+            onRateProduct={handleRateProduct}
+            allMyRatings={allMyRatings}
+          />
         </section>
       </main>
     </>
@@ -65,9 +83,24 @@ const AuthedApp: NextPage<AppProps> = ({ token }) => {
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
 })(async ({ AuthUser }) => {
-  const token = await AuthUser.getIdToken();
+  let userData;
+  const token = (await AuthUser.getIdToken()) as string;
+  const { user_id = "" } = jwtDecode(token);
+
+  const userDocument = await db.collection("/users").doc(user_id);
+  await userDocument
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData = doc.data();
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+    });
+
   return {
-    props: { token },
+    props: { userData },
   };
 });
 

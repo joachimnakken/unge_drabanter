@@ -20,8 +20,10 @@ const Login = () => {
   // const setPageLoading = useSetRecoilState(pageLoaderAtom);
 
   const createUser = async () => {
-    var docRef = await db.collection("users").doc();
+    const uid = await firebase?.auth()?.currentUser?.uid;
+    const docRef = await db.collection("users").doc(uid);
     const idToken = await firebase?.auth()?.currentUser?.getIdToken(true);
+
     if (!idToken) return;
     await docRef.set({
       firstName,
