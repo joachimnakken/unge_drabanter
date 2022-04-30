@@ -12,6 +12,12 @@ export interface VinmonopoletProduct {
 export interface VinmonopoletProductWithImage extends VinmonopoletProduct {
   imageUrl: string;
 }
+export interface RatedProductDocument extends VinmonopoletProductWithImage {
+  id: string;
+  ratedById: string;
+  ratedFromGroup: string;
+  rating: number;
+}
 
 export interface UserDataInterface {
   id: string;

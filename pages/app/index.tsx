@@ -8,9 +8,14 @@ import {
 import Head from "next/head";
 import VinmonopoletProductSearch from "../../components/VinmonopoletProductSearch";
 import useAllRatings from "../../hooks/useAllRatings";
+import { isNotEmptyObject } from "../../helpers/object";
 
 import firebase from "../../libs/fb";
-import { UserDataInterface, VinmonopoletProductWithImage } from "../../types";
+import {
+  RatedProductDocument,
+  UserDataInterface,
+  VinmonopoletProductWithImage,
+} from "../../types";
 
 var db = firebase.firestore();
 
@@ -20,15 +25,16 @@ type AppProps = {
 
 const AuthedApp: NextPage<AppProps> = ({ userData }) => {
   const allMyRatings = useAllRatings(userData.id);
-
   const handleRateProduct = async (
     product: VinmonopoletProductWithImage,
     rating: Number
   ) => {
-    const alreadyRatedProduct = allMyRatings.find(
-      (rating) => rating?.basic?.productId === product.basic.productId
-    );
-
+    const alreadyRatedProduct: RatedProductDocument =
+      allMyRatings.find(
+        (r: RatedProductDocument) =>
+          r.basic.productId === product.basic.productId
+      ) || ({} as RatedProductDocument);
+    // ¯\_(ツ)_/¯
     const newRating = {
       ...product,
       rating,
@@ -41,10 +47,11 @@ const AuthedApp: NextPage<AppProps> = ({ userData }) => {
         `Are you sure you want to rate ${product.basic.productShortName} ${rating} stars?`
       )
     ) {
-      if (alreadyRatedProduct) {
+      console.log({ alreadyRatedProduct });
+      if (isNotEmptyObject(alreadyRatedProduct)) {
         await db
           .collection("/ratings")
-          .doc(alreadyRatedProduct.id)
+          .doc(alreadyRatedProduct?.id)
           .update(newRating);
       } else {
         try {
@@ -57,8 +64,6 @@ const AuthedApp: NextPage<AppProps> = ({ userData }) => {
     }
   };
 
-  console.log({ allMyRatings });
-
   return (
     <>
       <Head>
@@ -67,9 +72,9 @@ const AuthedApp: NextPage<AppProps> = ({ userData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="space-y-4 bg-slate-300 grow">
+      <main className="p-4 space-y-4 bg-slate-300 grow">
         <h1>Hei, {userData.firstName}</h1>
-        <section className="p-4">
+        <section>
           <VinmonopoletProductSearch
             onRateProduct={handleRateProduct}
             allMyRatings={allMyRatings}
@@ -85,9 +90,10 @@ export const getServerSideProps = withAuthUserTokenSSR({
 })(async ({ AuthUser }) => {
   let userData;
   const token = (await AuthUser.getIdToken()) as string;
-  const { user_id = "" } = jwtDecode(token);
+  const decodedToken: any = jwtDecode(token);
+  const id: string = decodedToken?.user_id;
 
-  const userDocument = await db.collection("/users").doc(user_id);
+  const userDocument = await db.collection("/users").doc(id);
   await userDocument
     .get()
     .then((doc) => {

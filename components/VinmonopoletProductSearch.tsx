@@ -6,10 +6,16 @@ import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
 
 import { useGetVinmonopoletProductsQuery } from "../store/features/vinmonopolet";
 import firebase from "../libs/fb";
+import { RatedProductDocument } from "../types";
 
 const db = firebase.firestore();
 
-const VinmonopoletProductSearch = ({ onRateProduct, allMyRatings }) => {
+interface Props {
+  allMyRatings: RatedProductDocument[];
+  onRateProduct: (product: any, rating: number) => void;
+}
+
+const VinmonopoletProductSearch = ({ onRateProduct, allMyRatings }: Props) => {
   const [searchString, setSearchString] = useState("");
   const [page, setPage] = useReducer(
     (state: number, action: "next" | "previous" | "reset") => {
