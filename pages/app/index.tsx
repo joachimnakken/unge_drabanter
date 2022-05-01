@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import type { NextPage } from "next";
 import {
   AuthAction,
@@ -17,7 +18,7 @@ type AppProps = {
   token: string | null;
 };
 
-const AuthedApp: NextPage<AppProps> = ({ token }) => {
+const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
   const AuthUser = useAuthUser();
   const [userData, setUserData] = useState<any>({});
 
@@ -26,9 +27,10 @@ const AuthedApp: NextPage<AppProps> = ({ token }) => {
 
   useEffect(() => {
     (async () => {
-      const userDocument = await db
-        .collection("/users")
-        .doc("3yZmuFEini8El4tqr7Za");
+      if (!token) return;
+      const decodedToken: any = jwtDecode(token);
+      const user_id: string = decodedToken?.user_id;
+      const userDocument = await db.collection("/users").doc(user_id);
       await userDocument
         .get()
         .then((doc) => {
@@ -43,7 +45,7 @@ const AuthedApp: NextPage<AppProps> = ({ token }) => {
           console.log("Error getting document:", error);
         });
     })();
-  }, []);
+  }, [token]);
 
   return (
     <>

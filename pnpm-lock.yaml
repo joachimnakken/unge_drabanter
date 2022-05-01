@@ -14,6 +14,7 @@ specifiers:
   eslint-config-next: 12.1.5
   firebase: ^8.7.0
   firebase-admin: ^9.10.0
+  jwt-decode: ^3.1.2
   next: 12.0.9
   next-firebase-auth: ^0.14.3
   postcss: ^8.4.12
@@ -31,6 +32,7 @@ dependencies:
   clsx: 1.1.1
   firebase: 8.10.1
   firebase-admin: 9.12.0_5395f954a08b86dffb8e74f386d79234
+  jwt-decode: 3.1.2
   next: 12.0.9_react-dom@18.0.0+react@18.0.0
   next-firebase-auth: 0.14.3_d8461add31e3a9abbd3bff1fd1155366
   react: 18.0.0
@@ -2470,6 +2472,10 @@ packages:
       safe-buffer: 5.2.1
     dev: false
     optional: true
+
+  /jwt-decode/3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
 
   /keygrip/1.1.0:
     resolution: {integrity: sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==}

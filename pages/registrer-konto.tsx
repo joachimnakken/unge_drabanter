@@ -3,6 +3,7 @@ import { AuthAction, withAuthUserTokenSSR } from "next-firebase-auth";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import firebase from "../libs/fb";
+import Image from "next/image";
 
 const db = firebase.firestore();
 
@@ -20,7 +21,8 @@ const Login = () => {
   // const setPageLoading = useSetRecoilState(pageLoaderAtom);
 
   const createUser = async () => {
-    var docRef = await db.collection("users").doc();
+    const uid = await firebase?.auth()?.currentUser?.uid;
+    const docRef = await db.collection("users").doc(uid);
     const idToken = await firebase?.auth()?.currentUser?.getIdToken(true);
     if (!idToken) return;
     await docRef.set({
@@ -83,35 +85,43 @@ const Login = () => {
   if (isLoading) return <div>Laster</div>;
 
   return (
-    <div className="p-6 border">
-      <form onSubmit={handleSubmit}>
-        Epost-adresse
+    <div className="flex flex-col items-center justify-center h-full px-6 border ">
+      <div className="mt-1">
+        <Image src="/logo.svg" width={178} height={189} alt="lknjbj" />
+      </div>
+      <form onSubmit={handleSubmit} className="md:w-1/4">
         <input
+          placeholder="Epost-adresse"
           type="email"
-          className="w-full p-1 my-2 border rounded-md"
+          className="w-full py-2 mt-10 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setEmail(value)}
         />
-        Passord
+
         <input
+          placeholder="Passord"
           type="password"
-          className="w-full p-1 my-2 border rounded-md"
+          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setPassword(value)}
         />
-        Fornavn
+
         <input
+          placeholder="Fornavn"
           type="text"
-          className="w-full p-1 my-2 border rounded-md"
+          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setFirstName(value)}
         />
-        Etternavn
+
         <input
+          placeholder="Etternavn"
           type="text"
-          className="w-full p-1 my-2 border rounded-md"
+          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setLastName(value)}
         />
-        <button className="p-2 mt-8 text-2xl text-gray-800 bg-blue-300 border rounded">
-          Opprett konto
-        </button>
+        <div className="mt-4 text-center">
+          <button className="px-10 py-4 bg-yellow-300 rounded-full">
+            Opprett konto
+          </button>
+        </div>
         {error && <div className="text-red"> {error}</div>}
       </form>
       {/* <button onClick={() => signupWithGithub()}>

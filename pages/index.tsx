@@ -4,6 +4,7 @@ import { AuthAction, withAuthUserTokenSSR } from "next-firebase-auth";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
@@ -52,7 +53,7 @@ const Login = () => {
       <div>
         <strong>unge_drabanter</strong>
       </div>
-      <form>
+      <form className="md:w-1/4">
         <input
           type="email"
           placeholder="Email"
@@ -62,14 +63,18 @@ const Login = () => {
         <input
           type="password"
           placeholder="Password"
-          className="w-full py-2 mt-2 font-bold border-2 rounded-full"
+          className="w-full py-2 mt- font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setPassword(value)}
         />
         <div className="mt-10 text-center">
           <button className="px-10 py-4 bg-yellow-300 rounded-full">
             <strong>Login</strong>
           </button>
-          <div className="mt-5">Register</div>
+          <div className="mt-5">
+            <Link href="registrer-konto">
+              <a className="underline">Register</a>
+            </Link>
+          </div>
         </div>
         {error && <div className="text-red"> {error}</div>}
       </form>
