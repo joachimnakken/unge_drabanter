@@ -52,7 +52,7 @@ const AuthedApp: NextPage<AppProps> = ({ token }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="space-y-4 bg-slate-300 grow">
+      <main className="p-4 space-y-4 grow">
         <h1>Hei, {userData.firstName}</h1>
         <section className="p-4">
           <VinmonopoletProductSearch />

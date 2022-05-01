@@ -3,6 +3,7 @@ import { AuthAction, withAuthUserTokenSSR } from "next-firebase-auth";
 
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Login = () => {
   const router = useRouter();
@@ -41,21 +42,35 @@ const Login = () => {
     }
   };
   return (
-    <main className="px-6" onSubmit={handleSubmit}>
+    <main
+      className="flex flex-col items-center justify-center h-full px-6"
+      onSubmit={handleSubmit}
+    >
+      <div className="mt-1">
+        <Image src="/logo.svg" width={178} height={189} alt="lknjbj" />
+      </div>
+      <div>
+        <strong>unge_drabanter</strong>
+      </div>
       <form>
         <input
           type="email"
-          placeholder="email"
-          className="w-full"
+          placeholder="Email"
+          className="w-full py-2 mt-10 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setEmail(value)}
         />
         <input
           type="password"
-          placeholder="password"
-          className="w-full"
+          placeholder="Password"
+          className="w-full py-2 mt-2 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setPassword(value)}
         />
-        <button>Login</button>
+        <div className="mt-10 text-center">
+          <button className="px-10 py-4 bg-yellow-300 rounded-full">
+            <strong>Login</strong>
+          </button>
+          <div className="mt-5">Register</div>
+        </div>
         {error && <div className="text-red"> {error}</div>}
       </form>
     </main>
