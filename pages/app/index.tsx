@@ -6,6 +6,7 @@ import {
 } from "next-firebase-auth";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import NavBar from "../../components/NavBar";
 import VinmonopoletProductSearch from "../../components/VinmonopoletProductSearch";
 
 import firebase from "../../libs/fb";
@@ -51,6 +52,7 @@ const AuthedApp: NextPage<AppProps> = ({ token }) => {
         <meta name="description" content="Johnny Tester" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NavBar />
 
       <main className="p-4 space-y-4 grow">
         <h1>Hei, {userData.firstName}</h1>
