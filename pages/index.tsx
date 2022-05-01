@@ -63,7 +63,7 @@ const Login = () => {
         <input
           type="password"
           placeholder="Password"
-          className="w-full py-2 mt- font-bold border-2 rounded-full"
+          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
           onChange={({ target: { value = "" } }) => setPassword(value)}
         />
         <div className="mt-10 text-center">
