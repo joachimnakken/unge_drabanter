@@ -3,8 +3,15 @@ import Image from "next/image";
 import clsx from "clsx";
 
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FiSearch } from "react-icons/fi";
 
 import { useGetVinmonopoletProductsQuery } from "../store/features/vinmonopolet";
+
+interface alchohol {
+  basic: { productId: string, productShortName: string },
+  imageUrl: string;
+  lastChanged: object,
+}
 
 const VinmonopoletProductSearch = () => {
   const [searchString, setSearchString] = useState("");
@@ -45,15 +52,18 @@ const VinmonopoletProductSearch = () => {
       <div className="col-span-full">
         <section className="p-4 bg-white rounded shadow-lg">
           <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
-            <input
-              type="search"
-              name="search"
-              placeholder="Search..."
-              className="h-16 text-xl rounded-full shadow-inner grow"
-            />
+            <div className="relative flex items-center h-12 bg-white border rounded-full grow">
+              <FiSearch className="absolute w-4 h-4 left-4" />
+              <input
+                type="search"
+                name="search"
+                placeholder="Search"
+                className="w-full h-full px-10 border-none rounded-full shadow-inner outline-none bg-none"
+              />
+            </div>
             <button
               type="submit"
-              className="h-16 px-6 text-xl text-white bg-green-400 rounded-full disabled:text-opacity-50 basis-16 shrink-0 grow md:grow-0"
+              className="px-4 py-2 text-xl text-white bg-green-400 rounded-full disabled:text-opacity-50 basis-16 shrink-0 grow md:grow-0"
             >
               Search
             </button>
@@ -83,7 +93,7 @@ const VinmonopoletProductSearch = () => {
         </div>
       )}
 
-      {vinmonopoletProducts.map((p) => (
+      {vinmonopoletProducts.map((p: alchohol) => (
         <article
           key={p.basic.productId}
           className="flex h-24 py-2 bg-white rounded shadow-lg col-span-full md:col-span-2"
@@ -103,7 +113,7 @@ const VinmonopoletProductSearch = () => {
 
           <div className="flex items-center justify-center basis-24 shrink-0">
             <button className="h-8 px-4 text-white bg-green-400 rounded">
-              ADD
+              +
             </button>
           </div>
         </article>

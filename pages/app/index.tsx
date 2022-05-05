@@ -5,8 +5,9 @@ import {
   useAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
-import Head from "next/head";
+
 import { useEffect, useState } from "react";
+import Meta from "../../components/Meta";
 import NavBar from "../../components/NavBar";
 import VinmonopoletProductSearch from "../../components/VinmonopoletProductSearch";
 
@@ -49,16 +50,11 @@ const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
 
   return (
     <>
-      <Head>
-        <title>Young drabants</title>
-        <meta name="description" content="Johnny Tester" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <Meta title="Young drabants" description="Johnny Tester" />
       <NavBar />
-
       <main className="p-4 space-y-4 grow">
         <h1>Hei, {userData.firstName}</h1>
-        <section className="p-4">
+        <section>
           <VinmonopoletProductSearch />
         </section>
       </main>
