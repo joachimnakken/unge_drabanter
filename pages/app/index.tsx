@@ -52,10 +52,11 @@ const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
     <>
       <Meta title="Young drabants" description="Johnny Tester" />
       <NavBar />
-      <main className="p-4 space-y-4 grow">
-        <h1>Hei, {userData.firstName}</h1>
-        <section>
+      <main className="p-4">
+        <section className="mx-auto border lg:max-w-screen-xl">
+          <h1 className="mb-4">Hei, {userData.firstName}</h1>
           <VinmonopoletProductSearch />
+
         </section>
       </main>
     </>

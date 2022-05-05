@@ -44,7 +44,7 @@ const Login = () => {
   };
   return (
     <main
-      className="flex flex-col items-center justify-center h-full px-6"
+      className="flex flex-col items-center justify-center flex-1 h-full px-6"
       onSubmit={handleSubmit}
     >
       <div className="mt-1">
@@ -84,5 +84,7 @@ const Login = () => {
 export const getServerSideProps = withAuthUserTokenSSR({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
 })();
+
+
 
 export default Login;

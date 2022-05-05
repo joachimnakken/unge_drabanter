@@ -1,39 +1,58 @@
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FaGlassWhiskey, FaHamburger, FaRandom } from "react-icons/fa";
+import { AiTwotoneStar } from "react-icons/ai";
 
 const nav = [
-  { label: "Rated products", href: "/rated" },
-  { label: "Stuff1", href: "app/stuff1" },
-  { label: "Stuff2", href: "app/stuff2" },
+  { label: "Rated products", href: "/", icon: <AiTwotoneStar /> },
+  { label: "Stuff 1", href: "/app/stuff1", icon: <FaGlassWhiskey /> },
+  { label: "Stuff 2", href: "/app/stuff1", icon: <FaRandom /> },
 ];
 
 const NavBar = () => {
   const router = useRouter();
+  const { pathname } = router;
   const logout = async () => {
     await fetch("/api/logout");
     router.push("/");
   };
 
+
+
   return (
-    <div className="flex items-center justify-between w-full px-6 py-2 border shadow-lg">
+    <div className="flex items-center justify-between w-full px-6 py-2 bg-white border shadow-lg">
       <div className="flex">
         <div className="mr-8">
-          <Image src="/logo.svg" width={54} height={54} alt="logo" />
+          <Link href="/" passHref>
+            <a>
+              <Image src="/logo.svg" width={54} height={54} alt="logo" />
+            </a>
+          </Link>
         </div>
 
-        <ul className="flex items-center justify-center space-x-8">
-          {nav.map((item) => (
-            <Link key={item.label} href={item.href} passHref>
-              <li className="cursor-pointer">
-                <strong>{item.label}</strong>
+        <ul className="items-center justify-center hidden space-x-4 md:flex">
+          {nav.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <li key={item.label} className={clsx(isActive && "border-b-2 border-black",)}>
+                <Link href={item.href} passHref>
+                  <a className="flex items-center">
+                    <span className="mr-2">{item.icon}</span>
+                    <strong>{item.label}</strong>
+                  </a>
+                </Link>
               </li>
-            </Link>
-          ))}
+            )
+          })}
         </ul>
       </div>
-      <button className="px-4 py-1 text-sm text-white bg-green-400 rounded-sm" onClick={() => logout()}>
-        Logout
+      <button className="p-4 bg-yellow-300 md:hidden ring-yellow-300 ring-offset-4 ring-4" onClick={() => alert('implement me!')}>
+        <FaHamburger />
+      </button>
+      <button className="hidden px-4 py-2 text-sm bg-yellow-300 md:block ring-4 ring-yellow-300 ring-offset-4" onClick={() => logout()}>
+        <strong>Logout</strong>
       </button>
     </div>
   );

@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <div className="flex flex-col h-screen bg-zink-300">
+      <div className="flex flex-col min-h-screen bg-stone-200">
         <Component {...pageProps} />
       </div>
     </Provider>

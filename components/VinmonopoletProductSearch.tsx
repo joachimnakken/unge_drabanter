@@ -3,37 +3,34 @@ import Image from "next/image";
 import clsx from "clsx";
 
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
+import { FiPlus, FiSearch } from "react-icons/fi";
 
 import { useGetVinmonopoletProductsQuery } from "../store/features/vinmonopolet";
 
 interface alchohol {
   basic: { productId: string, productShortName: string },
-  imageUrl: string;
+  imageUrl: string,
   lastChanged: object,
 }
 
 const VinmonopoletProductSearch = () => {
   const [searchString, setSearchString] = useState("");
-  const [page, setPage] = useReducer(
-    (state: number, action: "next" | "previous" | "reset") => {
-      switch (action) {
-        case "next":
-          return state + 1;
-        case "previous":
-          return Math.max(state - 1, 1);
-        case "reset":
-          return 1;
-        default:
-          return state;
-      }
-    },
-    1
-  );
+  const [page, setPage] = useReducer((state: number, action: "next" | "previous" | "reset") => {
+    switch (action) {
+      case "next":
+        return state + 1;
+      case "previous":
+        return Math.max(state - 1, 1);
+      case "reset":
+        return 1;
+      default:
+        return state;
+    }
+  }, 1);
 
   const { data: vinmonopoletProducts = [] } = useGetVinmonopoletProductsQuery(
     { name: searchString, limit: 5, skip: (page - 1) * 5 },
-    { skip: !searchString }
+    { skip: !searchString },
   );
 
   const handleSearch = (e: SyntheticEvent): void => {
@@ -47,37 +44,45 @@ const VinmonopoletProductSearch = () => {
     setPage("reset");
   };
 
+
+
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-4 gap-4 lg:grid-cols-12">
       <div className="col-span-full">
-        <section className="p-4 bg-white rounded shadow-lg">
+        <section className="p-10 bg-white rounded shadow">
           <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
-            <div className="relative flex items-center h-12 bg-white border rounded-full grow">
+            <div className="relative flex items-center h-10 bg-white border-b-2 border-transparent border-gray-300 roun grow focus-within:ring-offset-0 border-3 focus-within:border-rose-600">
+
               <FiSearch className="absolute w-4 h-4 left-4" />
               <input
                 type="search"
                 name="search"
                 placeholder="Search"
-                className="w-full h-full px-10 border-none rounded-full shadow-inner outline-none bg-none"
+                className="w-full h-full pl-10 placeholder-transparent border-none focus:ring-0 outline-0 peer"
               />
+              <label
+                htmlFor="search"
+                className="absolute text-xs text-gray-600 transition-all left-10 -top-3.5 peer-focus:text-xs peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-gray-400 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-1.5"
+              >
+                Search
+              </label>
             </div>
             <button
               type="submit"
-              className="px-4 py-2 text-xl text-white bg-green-400 rounded-full disabled:text-opacity-50 basis-16 shrink-0 grow md:grow-0"
+              className="h-10 px-4 bg-yellow-300 rounded-full disabled:text-opacity-50 basis-16 shrink-0 grow md:grow-0"
             >
-              Search
+              <strong>
+                Search
+              </strong>
             </button>
           </form>
         </section>
       </div>
 
       {vinmonopoletProducts.length !== 0 && (
-        <div className="col-span-full">
-          <section className="flex justify-between p-4 bg-white rounded shadow-lg">
-            <button
-              onClick={() => setPage("previous")}
-              className={clsx({ invisible: page === 1 })}
-            >
+        <div className="col-span-full ">
+          <section className="flex justify-between p-4 bg-white rounded shadow">
+            <button onClick={() => setPage("previous")} className={clsx({ invisible: page === 1 })}>
               <FaArrowLeft />
             </button>
 
@@ -96,9 +101,9 @@ const VinmonopoletProductSearch = () => {
       {vinmonopoletProducts.map((p: alchohol) => (
         <article
           key={p.basic.productId}
-          className="flex h-24 py-2 bg-white rounded shadow-lg col-span-full md:col-span-2"
+          className="flex items-center h-24 bg-white rounded shadow col-span-full lg:col-span-4"
         >
-          <div className="relative basis-16 shrink-0">
+          <div className="relative h-full aspect-square">
             <Image
               src={p.imageUrl}
               layout="fill"
@@ -107,17 +112,17 @@ const VinmonopoletProductSearch = () => {
               sizes="(min-width: 768px) 16vw, 33vw"
             />
           </div>
-          <div className="text-lg font-bold grow">
-            {p.basic.productShortName}
-          </div>
-
-          <div className="flex items-center justify-center basis-24 shrink-0">
-            <button className="h-8 px-4 text-white bg-green-400 rounded">
-              +
-            </button>
-          </div>
+          <div className="text-lg lg:text-sm grow"><strong>{p.basic.productShortName}</strong></div>
+          <button className="flex items-center justify-center w-16 h-full bg-yellow-300 shrink-0"><FiPlus /></button>
         </article>
       ))}
+      <section className="mt-20 text-center border col-span-full">
+        <h2>Cant find what you are looking for?</h2>
+        <div className="my-4">Add it yourself!</div>
+        <div className="grid place-items-center">
+          <button onClick={() => alert('I dont work yet either')} className="flex items-center justify-center w-20 h-20 bg-yellow-300 rounded-full"><FiPlus /></button>
+        </div>
+      </section>
     </div>
   );
 };
