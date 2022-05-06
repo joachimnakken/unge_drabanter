@@ -56,7 +56,6 @@ const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
         <section className="mx-auto border lg:max-w-screen-xl">
           <h1 className="mb-4">Hei, {userData.firstName}</h1>
           <VinmonopoletProductSearch />
-
         </section>
       </main>
     </>

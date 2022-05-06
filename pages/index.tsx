@@ -5,6 +5,10 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import Input from "../components/Input";
+
+import { HiOutlineMail } from "react-icons/hi";
+import { MdPassword } from "react-icons/md";
 
 const Login = () => {
   const router = useRouter();
@@ -44,47 +48,51 @@ const Login = () => {
   };
   return (
     <main
-      className="flex flex-col items-center justify-center flex-1 h-full px-6"
+      className="grid flex-1 h-full p-4 place-items-center "
       onSubmit={handleSubmit}
     >
-      <div className="mt-1">
-        <Image src="/logo.svg" width={178} height={189} alt="lknjbj" />
-      </div>
-      <div>
-        <strong>unge_drabanter</strong>
-      </div>
-      <form className="md:w-1/4">
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full py-2 mt-10 font-bold border-2 rounded-full"
-          onChange={({ target: { value = "" } }) => setEmail(value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
-          onChange={({ target: { value = "" } }) => setPassword(value)}
-        />
-        <div className="mt-10 text-center">
-          <button className="px-10 py-4 bg-yellow-300 rounded-full">
-            <strong>Login</strong>
-          </button>
-          <div className="mt-5">
-            <Link href="registrer-konto">
-              <a className="underline">Register</a>
-            </Link>
-          </div>
+      <section className="flex flex-col col-span-full">
+        <div className="flex flex-col items-center ">
+          <Image src="/logo.svg" width={178} height={189} alt="logo" />
+          <strong>unge_drabanter</strong>
         </div>
-        {error && <div className="text-red"> {error}</div>}
-      </form>
+
+        <form className="w-full mt-8" autoComplete="off">
+          <Input
+            type="email"
+            label="email"
+            name="email"
+            Icon={HiOutlineMail}
+            value={email}
+            onChange={({ target: { value = "" } }) => setEmail(value)}
+          />
+          <Input
+            className="mt-8"
+            type="password"
+            label="password"
+            name="password"
+            Icon={MdPassword}
+            value={password}
+            onChange={({ target: { value = "" } }) => setPassword(value)}
+          />
+          <div className="mt-8 text-center">
+            <button className="p-4 px-10 bg-yellow-300 rounded-full">
+              <strong>Login</strong>
+            </button>
+            <div className="mt-4">
+              <Link href="registrer-konto">
+                <a className="underline">Register</a>
+              </Link>
+            </div>
+          </div>
+          {error && <div className="text-red"> {error}</div>}
+        </form>
+      </section>
     </main>
   );
 };
 export const getServerSideProps = withAuthUserTokenSSR({
   whenAuthed: AuthAction.REDIRECT_TO_APP,
 })();
-
-
 
 export default Login;

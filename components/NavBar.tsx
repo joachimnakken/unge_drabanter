@@ -19,8 +19,6 @@ const NavBar = () => {
     router.push("/");
   };
 
-
-
   return (
     <div className="flex items-center justify-between w-full px-6 py-2 bg-white border shadow-lg">
       <div className="flex">
@@ -36,7 +34,10 @@ const NavBar = () => {
           {nav.map((item) => {
             const isActive = pathname === item.href;
             return (
-              <li key={item.label} className={clsx(isActive && "border-b-2 border-black",)}>
+              <li
+                key={item.label}
+                className={clsx(isActive && "border-b-2 border-black")}
+              >
                 <Link href={item.href} passHref>
                   <a className="flex items-center">
                     <span className="mr-2">{item.icon}</span>
@@ -44,14 +45,20 @@ const NavBar = () => {
                   </a>
                 </Link>
               </li>
-            )
+            );
           })}
         </ul>
       </div>
-      <button className="p-4 bg-yellow-300 md:hidden ring-yellow-300 ring-offset-4 ring-4" onClick={() => alert('implement me!')}>
+      <button
+        className="p-4 bg-yellow-300 md:hidden ring-yellow-300 ring-offset-4 ring-4"
+        onClick={() => alert("implement me!")}
+      >
         <FaHamburger />
       </button>
-      <button className="hidden px-4 py-2 text-sm bg-yellow-300 md:block ring-4 ring-yellow-300 ring-offset-4" onClick={() => logout()}>
+      <button
+        className="hidden px-4 py-2 text-sm bg-yellow-300 md:block ring-4 ring-yellow-300 ring-offset-4"
+        onClick={() => logout()}
+      >
         <strong>Logout</strong>
       </button>
     </div>

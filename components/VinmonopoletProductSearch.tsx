@@ -8,29 +8,32 @@ import { FiPlus, FiSearch } from "react-icons/fi";
 import { useGetVinmonopoletProductsQuery } from "../store/features/vinmonopolet";
 
 interface alchohol {
-  basic: { productId: string, productShortName: string },
-  imageUrl: string,
-  lastChanged: object,
+  basic: { productId: string; productShortName: string };
+  imageUrl: string;
+  lastChanged: object;
 }
 
 const VinmonopoletProductSearch = () => {
   const [searchString, setSearchString] = useState("");
-  const [page, setPage] = useReducer((state: number, action: "next" | "previous" | "reset") => {
-    switch (action) {
-      case "next":
-        return state + 1;
-      case "previous":
-        return Math.max(state - 1, 1);
-      case "reset":
-        return 1;
-      default:
-        return state;
-    }
-  }, 1);
+  const [page, setPage] = useReducer(
+    (state: number, action: "next" | "previous" | "reset") => {
+      switch (action) {
+        case "next":
+          return state + 1;
+        case "previous":
+          return Math.max(state - 1, 1);
+        case "reset":
+          return 1;
+        default:
+          return state;
+      }
+    },
+    1
+  );
 
   const { data: vinmonopoletProducts = [] } = useGetVinmonopoletProductsQuery(
     { name: searchString, limit: 5, skip: (page - 1) * 5 },
-    { skip: !searchString },
+    { skip: !searchString }
   );
 
   const handleSearch = (e: SyntheticEvent): void => {
@@ -44,15 +47,12 @@ const VinmonopoletProductSearch = () => {
     setPage("reset");
   };
 
-
-
   return (
     <div className="grid grid-cols-4 gap-4 lg:grid-cols-12">
       <div className="col-span-full">
         <section className="p-10 bg-white rounded shadow">
           <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
             <div className="relative flex items-center h-10 bg-white border-b-2 border-transparent border-gray-300 roun grow focus-within:ring-offset-0 border-3 focus-within:border-rose-600">
-
               <FiSearch className="absolute w-4 h-4 left-4" />
               <input
                 type="search"
@@ -71,9 +71,7 @@ const VinmonopoletProductSearch = () => {
               type="submit"
               className="h-10 px-4 bg-yellow-300 rounded-full disabled:text-opacity-50 basis-16 shrink-0 grow md:grow-0"
             >
-              <strong>
-                Search
-              </strong>
+              <strong>Search</strong>
             </button>
           </form>
         </section>
@@ -82,7 +80,10 @@ const VinmonopoletProductSearch = () => {
       {vinmonopoletProducts.length !== 0 && (
         <div className="col-span-full ">
           <section className="flex justify-between p-4 bg-white rounded shadow">
-            <button onClick={() => setPage("previous")} className={clsx({ invisible: page === 1 })}>
+            <button
+              onClick={() => setPage("previous")}
+              className={clsx({ invisible: page === 1 })}
+            >
               <FaArrowLeft />
             </button>
 
@@ -112,15 +113,24 @@ const VinmonopoletProductSearch = () => {
               sizes="(min-width: 768px) 16vw, 33vw"
             />
           </div>
-          <div className="text-lg lg:text-sm grow"><strong>{p.basic.productShortName}</strong></div>
-          <button className="flex items-center justify-center w-16 h-full bg-yellow-300 shrink-0"><FiPlus /></button>
+          <div className="text-lg lg:text-sm grow">
+            <strong>{p.basic.productShortName}</strong>
+          </div>
+          <button className="flex items-center justify-center w-16 h-full bg-yellow-300 shrink-0">
+            <FiPlus />
+          </button>
         </article>
       ))}
       <section className="mt-20 text-center border col-span-full">
         <h2>Cant find what you are looking for?</h2>
         <div className="my-4">Add it yourself!</div>
         <div className="grid place-items-center">
-          <button onClick={() => alert('I dont work yet either')} className="flex items-center justify-center w-20 h-20 bg-yellow-300 rounded-full"><FiPlus /></button>
+          <button
+            onClick={() => alert("I dont work yet either")}
+            className="flex items-center justify-center w-20 h-20 bg-yellow-300 rounded-full"
+          >
+            <FiPlus />
+          </button>
         </div>
       </section>
     </div>
