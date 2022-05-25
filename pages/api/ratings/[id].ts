@@ -1,12 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import firebase from "../../../libs/fb";
-import { VinmonopoletProductWithImage } from "../../../types";
-
-interface RatingDocument extends VinmonopoletProductWithImage {
-  ratedById: string;
-  ratedFromGroupId: string;
-  rating: number;
-}
+import { RatingDocument, VinmonopoletProductWithImage } from "../../../types";
 
 export default async function handler(
   req: NextApiRequest,
