@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import {
   AuthAction,
   useAuthUser,
+  withAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
 
@@ -22,6 +23,8 @@ type AppProps = {
 const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
   const AuthUser = useAuthUser();
   const [userData, setUserData] = useState<any>({});
+
+  console.log("AuthUser", AuthUser);
 
   // Since we store token in cookie, we could do this on the server, but it's easier to do it on the client side for now
   // This should be done with RTK, but just wanted to show how ez it is to fetch data.
@@ -71,4 +74,4 @@ export const getServerSideProps = withAuthUserTokenSSR({
   };
 });
 
-export default AuthedApp;
+export default withAuthUser<AppProps>()(AuthedApp);
