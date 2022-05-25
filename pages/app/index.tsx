@@ -5,6 +5,7 @@ import {
   useAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
+import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import Meta from "../../components/Meta";
@@ -48,13 +49,27 @@ const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
     })();
   }, [token]);
 
+  const image = userData?.imageUrl || "/images/logo.png";
+
   return (
     <>
       <Meta title="Young drabants" description="Johnny Tester" />
       <NavBar />
       <main className="p-4">
         <section className="mx-auto border lg:max-w-screen-xl">
-          <h1 className="mb-4">Hei, {userData.firstName}</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="mb-4">
+              Hei, {userData.firstName} {userData.lastName}
+            </h1>
+
+            <Image
+              src={image}
+              height={200}
+              width={200}
+              alt={userData.firstName}
+              className="rounded-full overflow-clip"
+            />
+          </div>
           <VinmonopoletProductSearch />
         </section>
       </main>
