@@ -26,8 +26,8 @@ const Ratings = () => {
     <div>
       <h1>Ratings</h1>
       <ul>
-        {ratings.data?.map((d) => (
-          <li>
+        {ratings.data?.map((d, i) => (
+          <li key={i}>
             {d.basic.productShortName}: {d.rating}
           </li>
         ))}

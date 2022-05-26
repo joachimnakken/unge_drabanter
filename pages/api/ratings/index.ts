@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import firebase from "../../libs/fb";
-import { RatingDocument } from "../../types";
+import firebase from "../../../libs/fb";
+import { RatingDocument } from "../../../types";
 
 export default async function handler(
   req: NextApiRequest,
