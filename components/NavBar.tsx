@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import { FaGlassWhiskey, FaHamburger, FaRandom } from "react-icons/fa";
 import { AiTwotoneStar } from "react-icons/ai";
 
-const nav = [
-  { label: "Rated products", href: "/", icon: <AiTwotoneStar /> },
+const navItems = [
+  { label: "Rated products", href: "/app/ratings", icon: <AiTwotoneStar /> },
   { label: "Stuff 1", href: "/app/stuff1", icon: <FaGlassWhiskey /> },
   { label: "Stuff 2", href: "/app/stuff1", icon: <FaRandom /> },
 ];
@@ -31,7 +31,7 @@ const NavBar = () => {
         </div>
 
         <ul className="items-center justify-center hidden space-x-4 md:flex">
-          {nav.map((item) => {
+          {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <li
