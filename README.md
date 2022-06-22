@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Installing Dependencies
+
+This project requires pnpm, to add it run the following script:
+
+```
+npm i -g pnpm
+```
+
+## Environment variables
+
+Create a copy of .env.example and name it .env.local, all of the variables should be filled with approapriate values in order for the app to run
+
 ## Getting Started
 
 First, run the development server:
