@@ -2,7 +2,12 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button, Group, Header as MantineHeader } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Header as MantineHeader,
+  MediaQuery,
+} from "@mantine/core";
 
 import { useRouter } from "next/router";
 import { navItems } from "../config/nav";
@@ -16,12 +21,12 @@ const NavBar = () => {
   };
 
   return (
-    <MantineHeader height={80}>
+    <MantineHeader height={60}>
       <Group position="apart" px="sm" align="center" style={{ height: "100%" }}>
         <Group>
           <Link href="/" passHref>
             <a>
-              <Image src="/logo.svg" width={54} height={54} alt="logo" />
+              <Image src="/logo.svg" width={44} height={44} alt="logo" />
             </a>
           </Link>
 
@@ -39,10 +44,18 @@ const NavBar = () => {
             );
           })}
         </Group>
-
-        <Button onClick={() => logout()} variant="outline">
-          <strong>Logout</strong>
-        </Button>
+        <MediaQuery
+          smallerThan="lg"
+          styles={{
+            display: "none",
+            fontSize: 40,
+            "&:hover": { backgroundColor: "silver" },
+          }}
+        >
+          <Button onClick={() => logout()} variant="outline">
+            <strong>Logout</strong>
+          </Button>
+        </MediaQuery>
       </Group>
     </MantineHeader>
   );

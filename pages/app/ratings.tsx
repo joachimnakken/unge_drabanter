@@ -1,6 +1,15 @@
+import {
+  AspectRatio,
+  Container,
+  Grid,
+  Group,
+  Paper,
+  SimpleGrid,
+  Title,
+} from "@mantine/core";
 import Image from "next/image";
 import Meta from "../../components/Meta";
-import NavBar from "../../components/Header";
+
 import {
   useAddRatingMutation,
   useAllRatingsQuery,
@@ -28,35 +37,39 @@ const Ratings = () => {
   return (
     <>
       <Meta title="Young drabants" description="Johnny Tester" />
-
       <main>
-        <section>
-          <h1>Ratings</h1>
-          <ul>
+        <Container>
+          <Title order={1}>Rated products:</Title>
+
+          <SimpleGrid cols={3} spacing="xs">
             {ratings.data?.map((d, i) => {
               const image = d.imageUrl || "/images/logo.png";
               return (
-                <li key={i} style={{ position: "relative" }}>
-                  <div>
+                <Paper shadow="xs" radius="xs" p="md" key={i}>
+                  <Group>
+                    <h2>{d.basic.productShortName}</h2>
+                    <div>{d.basic.productId}</div>
+
+                    <div>{d.rating}</div>
+                  </Group>
+                  <AspectRatio
+                    ratio={4 / 4}
+                    sx={{ maxWidth: 100 }}
+                    style={{ position: "relative" }}
+                  >
                     <Image
                       src={image}
                       loader={({ src }) => src}
                       alt={d.basic.productShortName}
                       layout="fill"
-                      objectFit="contain"
-                      className="bg-grey-300"
+                      objectFit="cover"
                     />
-                  </div>
-                  <div>
-                    <h2>{d.basic.productShortName}</h2>
-                    <div>{d.basic.productId}</div>
-                  </div>
-                  <div>{d.rating}</div>
-                </li>
+                  </AspectRatio>
+                </Paper>
               );
             })}
-          </ul>
-        </section>
+          </SimpleGrid>
+        </Container>
       </main>
     </>
   );

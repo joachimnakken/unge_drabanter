@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { Button, Input } from "@mantine/core";
+import { Button, Input, InputWrapper, Stack, TextInput } from "@mantine/core";
 import { ChangeEvent, SyntheticEvent, useRef } from "react";
 import { useAddRatingMutation } from "../../store/features/ratings";
+import { FaGlassWhiskey, FaMapMarkerAlt } from "react-icons/fa";
 
 const LeggTil = () => {
   const imageRef = useRef<HTMLImageElement | null>(null);
@@ -69,18 +70,32 @@ const LeggTil = () => {
         />
       )}
       <form onSubmit={handleSubmit}>
-        <section>
+        <Stack spacing="xs">
           <label htmlFor="name">Name</label>
           <Input id="name" name="name" placeholder="Name" />
 
           <label htmlFor="price">Price</label>
           <Input id="price" name="price" placeholder="Price" />
 
-          <label htmlFor="proof">Proof</label>
-          <Input id="proof" name="proof" placeholder="Proof" />
+          <InputWrapper
+            id="proof"
+            label="Proof"
+            description="Alcohol, Wine, Beer, %"
+            error
+          >
+            <Input
+              id="proof"
+              name="proof"
+              placeholder="Proof"
+              icon={<FaGlassWhiskey />}
+            />
+          </InputWrapper>
 
-          <label htmlFor="country">Country</label>
-          <Input id="country" name="country" placeholder="Country" />
+          <TextInput
+            placeholder="Country"
+            label="Country"
+            icon={<FaMapMarkerAlt />}
+          />
 
           <label htmlFor="tastes">Tastes</label>
           <Input id="tastes" name="tastes" placeholder="Tastes" />
@@ -92,7 +107,7 @@ const LeggTil = () => {
             type="range"
             min={0}
             max={5}
-            step={0.5}
+            step={1}
           />
 
           <label htmlFor="image">Image</label>
@@ -107,7 +122,7 @@ const LeggTil = () => {
           <Button type="submit" variant="filled">
             Submit
           </Button>
-        </section>
+        </Stack>
       </form>
       {isSuccess && <p>Success!</p>}
       {isError && <p>Error!</p>}
