@@ -99,7 +99,10 @@ const VinmonopoletProductSearch = () => {
           key={p.basic.productId}
           className="flex items-center h-24 bg-white rounded shadow col-span-full lg:col-span-4"
         >
-          <div className="relative h-full aspect-square">
+          <div
+            className="relative h-full aspect-square"
+            style={{ position: "relative" }}
+          >
             <Image
               src={p.imageUrl}
               layout="fill"
