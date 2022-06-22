@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import firebase from "../libs/fb";
 import Image from "next/image";
+import { Button, Input, Stack } from "@mantine/core";
 
 const db = firebase.firestore();
 
@@ -85,49 +86,43 @@ const Login = () => {
   if (isLoading) return <div>Laster</div>;
 
   return (
-    <div className="flex flex-col items-center justify-center h-full px-6 border ">
-      <div className="mt-1">
-        <Image src="/logo.svg" width={178} height={189} alt="lknjbj" />
-      </div>
-      <form onSubmit={handleSubmit} className="md:w-1/4">
-        <input
-          placeholder="Epost-adresse"
-          type="email"
-          className="w-full py-2 mt-10 font-bold border-2 rounded-full"
-          onChange={({ target: { value = "" } }) => setEmail(value)}
-        />
+    <Stack>
+      <Image src="/logo.svg" width={178} height={189} alt="Logo" />
 
-        <input
-          placeholder="Passord"
-          type="password"
-          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
-          onChange={({ target: { value = "" } }) => setPassword(value)}
-        />
+      <form onSubmit={handleSubmit}>
+        <Stack>
+          <Input
+            placeholder="Epost-adresse"
+            type="email"
+            className="w-full py-2 mt-10 font-bold border-2 rounded-full"
+            onChange={({ target: { value = "" } }) => setEmail(value)}
+          />
 
-        <input
-          placeholder="Fornavn"
-          type="text"
-          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
-          onChange={({ target: { value = "" } }) => setFirstName(value)}
-        />
+          <Input
+            placeholder="Passord"
+            type="password"
+            className="w-full py-2 mt-6 font-bold border-2 rounded-full"
+            onChange={({ target: { value = "" } }) => setPassword(value)}
+          />
 
-        <input
-          placeholder="Etternavn"
-          type="text"
-          className="w-full py-2 mt-6 font-bold border-2 rounded-full"
-          onChange={({ target: { value = "" } }) => setLastName(value)}
-        />
-        <div className="mt-4 text-center">
-          <button className="px-10 py-4 bg-yellow-300 rounded-full">
-            Opprett konto
-          </button>
-        </div>
-        {error && <div className="text-red"> {error}</div>}
+          <Input
+            placeholder="Fornavn"
+            type="text"
+            className="w-full py-2 mt-6 font-bold border-2 rounded-full"
+            onChange={({ target: { value = "" } }) => setFirstName(value)}
+          />
+
+          <Input
+            placeholder="Etternavn"
+            type="text"
+            className="w-full py-2 mt-6 font-bold border-2 rounded-full"
+            onChange={({ target: { value = "" } }) => setLastName(value)}
+          />
+          <Button type="submit">Opprett konto</Button>
+          {error && <div className="text-red"> {error}</div>}
+        </Stack>
       </form>
-      {/* <button onClick={() => signupWithGithub()}>
-        <div>Logg inn med Github</div>
-      </button> */}
-    </div>
+    </Stack>
   );
 };
 export const getServerSideProps = withAuthUserTokenSSR({

@@ -3,22 +3,12 @@ import { Provider } from "react-redux";
 
 import { store } from "../store";
 
-import "../styles/globals.css";
 import initAuth from "../initAuth";
 import { MantineProvider } from "@mantine/core";
 import Head from "next/head";
 import AppShell from "../components/AppShell";
 
 initAuth();
-
-// function MyApp({ Component, pageProps }: AppProps) {
-//   return (
-//       <div className="flex flex-col min-h-screen bg-stone-200">
-//         <Component {...pageProps} />
-//       </div>
-//     </Provider>
-//   );
-// }
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -39,6 +29,9 @@ export default function App(props: AppProps) {
         theme={{
           /** Put your mantine theme override here */
           colorScheme: "light",
+          radius: {
+            sm: 9999,
+          },
         }}
       >
         <Provider store={store}>

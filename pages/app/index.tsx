@@ -10,10 +10,11 @@ import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import Meta from "../../components/Meta";
-import NavBar from "../../components/NavBar";
+import NavBar from "../../components/Header";
 import VinmonopoletProductSearch from "../../components/VinmonopoletProductSearch";
 
 import firebase from "../../libs/fb";
+import { Avatar, Group, Stack, Title } from "@mantine/core";
 
 var db = firebase.firestore();
 
@@ -57,24 +58,18 @@ const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
   return (
     <>
       <Meta title="Young drabants" description="Johnny Tester" />
-      <NavBar />
-      <main className="p-4">
-        <section className="mx-auto border lg:max-w-screen-xl">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="mb-4">
-              Hei, {userData.firstName} {userData.lastName}
-            </h1>
 
-            <Image
-              src={image}
-              height={200}
-              width={200}
-              alt={userData.firstName}
-              className="rounded-full overflow-clip"
-            />
-          </div>
+      <main>
+        <Stack>
+          <Group>
+            <Title order={1}>
+              Hei, {userData.firstName} {userData.lastName}
+            </Title>
+
+            <Avatar src={image} radius={9999} size="xl" />
+          </Group>
           <VinmonopoletProductSearch />
-        </section>
+        </Stack>
       </main>
     </>
   );

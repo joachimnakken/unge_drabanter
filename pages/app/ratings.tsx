@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Meta from "../../components/Meta";
-import NavBar from "../../components/NavBar";
+import NavBar from "../../components/Header";
 import {
   useAddRatingMutation,
   useAllRatingsQuery,
@@ -28,19 +28,16 @@ const Ratings = () => {
   return (
     <>
       <Meta title="Young drabants" description="Johnny Tester" />
-      <NavBar />
-      <main className="p-4">
-        <section className="mx-auto border lg:max-w-screen-xl">
+
+      <main>
+        <section>
           <h1>Ratings</h1>
-          <ul className="flex flex-wrap gap-4 mt-4">
+          <ul>
             {ratings.data?.map((d, i) => {
               const image = d.imageUrl || "/images/logo.png";
               return (
-                <li
-                  key={i}
-                  className="relative bg-white shadow h-[420px] flex rounded"
-                >
-                  <div className="relative w-40 h-full">
+                <li key={i} style={{ position: "relative" }}>
+                  <div>
                     <Image
                       src={image}
                       loader={({ src }) => src}
@@ -50,27 +47,16 @@ const Ratings = () => {
                       className="bg-grey-300"
                     />
                   </div>
-                  <div className="flex justify-between w-full p-4">
-                    <div>
-                      <h2>{d.basic.productShortName}</h2>
-                      <div>{d.basic.productId}</div>
-                    </div>
-                    <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white bg-red-400">
-                      {d.rating}
-                    </div>
+                  <div>
+                    <h2>{d.basic.productShortName}</h2>
+                    <div>{d.basic.productId}</div>
                   </div>
+                  <div>{d.rating}</div>
                 </li>
               );
             })}
           </ul>
         </section>
-
-        <button
-          onClick={handleAddRating}
-          className="fixed px-4 py-2 bg-yellow-300 right-4 top-32"
-        >
-          Add a dummy rating
-        </button>
       </main>
     </>
   );

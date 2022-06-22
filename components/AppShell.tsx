@@ -1,14 +1,17 @@
 import { AppShell as MantineAppShell } from "@mantine/core";
-import NavBar from "./NavBar";
+import { useRouter } from "next/router";
+import Header from "./Header";
 
 interface AppShellProps {
   children: React.ReactNode;
 }
 
 const AppShell = ({ children }: AppShellProps) => {
+  const router = useRouter();
+  const isLoggedIn = router.pathname.includes("/app");
   return (
     <MantineAppShell
-      header={<NavBar />}
+      header={isLoggedIn ? <Header /> : <div />}
       styles={{ main: { display: "flex", justifyContent: "center" } }}
     >
       {children}

@@ -2,10 +2,12 @@ import { SyntheticEvent, useReducer, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaGlassWhiskey } from "react-icons/fa";
 import { FiPlus, FiSearch } from "react-icons/fi";
 
 import { useGetVinmonopoletProductsQuery } from "../store/features/vinmonopolet";
+import { Button, Group, Input } from "@mantine/core";
+import Link from "next/link";
 
 interface alchohol {
   basic: { productId: string; productShortName: string };
@@ -48,34 +50,27 @@ const VinmonopoletProductSearch = () => {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-4 lg:grid-cols-12">
-      <div className="col-span-full">
-        <section className="p-10 bg-white rounded shadow">
-          <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
-            <div className="relative flex items-center h-10 bg-white border-b-2 border-transparent border-gray-300 roun grow focus-within:ring-offset-0 border-3 focus-within:border-rose-600">
-              <FiSearch className="absolute w-4 h-4 left-4" />
-              <input
-                type="search"
-                name="search"
-                placeholder="Search"
-                className="w-full h-full pl-10 placeholder-transparent border-none focus:ring-0 outline-0 peer"
-              />
-              <label
-                htmlFor="search"
-                className="absolute text-xs text-gray-600 transition-all left-10 -top-3.5 peer-focus:text-xs peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-gray-400 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-1.5"
-              >
-                Search
-              </label>
-            </div>
-            <button
-              type="submit"
-              className="h-10 px-4 bg-yellow-300 rounded-full disabled:text-opacity-50 basis-16 shrink-0 grow md:grow-0"
-            >
-              <strong>Search</strong>
-            </button>
-          </form>
-        </section>
-      </div>
+    <>
+      <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
+        <Group>
+          <label
+            htmlFor="search"
+            className="absolute text-xs text-gray-600 transition-all left-10 -top-3.5 peer-focus:text-xs peer-placeholder-shown:text-base peer-focus:-top-3.5 peer-focus:text-gray-400 peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-1.5"
+          >
+            Search
+          </label>
+          <Input
+            icon={<FiSearch />}
+            type="search"
+            name="search"
+            placeholder="Search"
+            className="w-full h-full pl-10 placeholder-transparent border-none focus:ring-0 outline-0 peer"
+          />
+          <Button leftIcon={<FaGlassWhiskey />} type="submit">
+            <strong>Search</strong>
+          </Button>
+        </Group>
+      </form>
 
       {vinmonopoletProducts.length !== 0 && (
         <div className="col-span-full ">
@@ -123,17 +118,13 @@ const VinmonopoletProductSearch = () => {
       ))}
       <section className="mt-20 text-center border col-span-full">
         <h2>Cant find what you are looking for?</h2>
-        <div className="my-4">Add it yourself!</div>
-        <div className="grid place-items-center">
-          <button
-            onClick={() => alert("I dont work yet either")}
-            className="flex items-center justify-center w-20 h-20 bg-yellow-300 rounded-full"
-          >
-            <FiPlus />
-          </button>
-        </div>
+        <Link href="/app/legg-til" passHref>
+          <Button component="a" leftIcon={<FiPlus />}>
+            Legg til rating
+          </Button>
+        </Link>
       </section>
-    </div>
+    </>
   );
 };
 

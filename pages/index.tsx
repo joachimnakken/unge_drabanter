@@ -5,10 +5,10 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import Input from "../components/Input";
 
 import { HiOutlineMail } from "react-icons/hi";
 import { MdPassword } from "react-icons/md";
+import { Button, Input, Stack } from "@mantine/core";
 
 const Login = () => {
   const router = useRouter();
@@ -47,47 +47,42 @@ const Login = () => {
     }
   };
   return (
-    <main
-      className="grid flex-1 h-full p-4 place-items-center "
-      onSubmit={handleSubmit}
-    >
-      <section className="flex flex-col col-span-full">
-        <div className="flex flex-col items-center ">
-          <Image src="/logo.svg" width={178} height={189} alt="logo" />
-          <strong>unge_drabanter</strong>
-        </div>
+    <main>
+      <Stack align="center">
+        <Image src="/logo.svg" width={178} height={189} alt="logo" />
+        <strong>unge_drabanter</strong>
 
-        <form className="w-full mt-8" autoComplete="off">
-          <Input
-            type="email"
-            label="email"
-            name="email"
-            Icon={HiOutlineMail}
-            value={email}
-            onChange={({ target: { value = "" } }) => setEmail(value)}
-          />
-          <Input
-            className="mt-8"
-            type="password"
-            label="password"
-            name="password"
-            Icon={MdPassword}
-            value={password}
-            onChange={({ target: { value = "" } }) => setPassword(value)}
-          />
-          <div className="mt-8 text-center">
-            <button className="p-4 px-10 bg-yellow-300 rounded-full">
+        <form onSubmit={handleSubmit}>
+          <Stack>
+            <Input
+              placeholder="Email"
+              type="email"
+              name="email"
+              icon={<HiOutlineMail />}
+              value={email}
+              onChange={({ target: { value = "" } }) => setEmail(value)}
+              autoComplete="email"
+            />
+            <Input
+              placeholder="Passord"
+              type="password"
+              name="password"
+              icon={<MdPassword />}
+              value={password}
+              onChange={({ target: { value = "" } }) => setPassword(value)}
+              autoComplete="current-password"
+            />
+            <Button type="submit" variant="filled">
               <strong>Login</strong>
-            </button>
-            <div className="mt-4">
-              <Link href="registrer-konto">
-                <a className="underline">Register</a>
-              </Link>
-            </div>
-          </div>
-          {error && <div className="text-red"> {error}</div>}
+            </Button>
+
+            <Link href="registrer-konto">
+              <a className="underline">Register</a>
+            </Link>
+          </Stack>
+          {error && <div>{error}</div>}
         </form>
-      </section>
+      </Stack>
     </main>
   );
 };
