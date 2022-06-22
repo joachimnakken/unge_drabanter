@@ -43,6 +43,7 @@ const Ratings = () => {
                   <div className="relative w-40 h-full">
                     <Image
                       src={image}
+                      loader={({ src }) => src}
                       alt={d.basic.productShortName}
                       layout="fill"
                       objectFit="contain"

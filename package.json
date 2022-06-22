@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@firebase/app-compat": "^0.1.23",
+    "@mantine/core": "^4.2.10",
+    "@mantine/hooks": "^4.2.10",
+    "@mantine/next": "^4.2.10",
     "@reduxjs/toolkit": "^1.8.1",
     "@tailwindcss/forms": "^0.5.1",
     "clsx": "^1.1.1",
