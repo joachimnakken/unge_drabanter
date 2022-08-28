@@ -14,7 +14,7 @@ import NavBar from "../../components/Header";
 import VinmonopoletProductSearch from "../../components/VinmonopoletProductSearch";
 
 import firebase from "../../libs/fb";
-import { Avatar, Group, Stack, Title } from "@mantine/core";
+import { Avatar, Grid, Group, Stack, Title } from "@mantine/core";
 
 var db = firebase.firestore();
 
@@ -57,19 +57,32 @@ const AuthedApp: NextPage<AppProps> = ({ token = "" }) => {
 
   return (
     <>
-      <Meta title="Young drabants" description="Johnny Tester" />
+      <Meta title="Young drabants" description="Dashboard - Young Drabants" />
 
       <main>
-        <Stack>
-          <Group>
-            <Title order={1}>
-              Hei, {userData.firstName} {userData.lastName}
-            </Title>
-
-            <Avatar src={image} radius={9999} size="xl" />
-          </Group>
-          <VinmonopoletProductSearch />
-        </Stack>
+        <Grid
+          grow
+          gutter="xs"
+          justify="center"
+          style={{ backgroundColor: "#ffsafe" }}
+        >
+          <Grid.Col>
+            <Group spacing="xs" grow>
+              <Avatar
+                radius="xl"
+                color="blue"
+                src={image}
+                style={{ flexShrink: "1", flexGrow: "0" }}
+              />
+              <Title order={2}>
+                Hei, {userData.firstName} {userData.lastName}
+              </Title>
+            </Group>
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <VinmonopoletProductSearch />
+          </Grid.Col>
+        </Grid>
       </main>
     </>
   );
