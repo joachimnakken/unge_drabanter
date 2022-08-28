@@ -36,7 +36,7 @@ const Ratings = () => {
 
   return (
     <>
-      <Meta title="Young drabants" description="Johnny Tester" />
+      <Meta title="Young drabants" description="Tester" />
       <main>
         <Container>
           <Title order={1}>Rated products:</Title>

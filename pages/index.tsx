@@ -79,8 +79,8 @@ const Login = () => {
             <Link href="registrer-konto">
               <a className="underline">Register</a>
             </Link>
+            {error && <div>{error}</div>}
           </Stack>
-          {error && <div>{error}</div>}
         </form>
       </Stack>
     </main>

@@ -3,9 +3,15 @@ import { Button, Input, InputWrapper, Stack, TextInput } from "@mantine/core";
 import { ChangeEvent, SyntheticEvent, useRef } from "react";
 import { useAddRatingMutation } from "../../store/features/ratings";
 import { FaGlassWhiskey, FaMapMarkerAlt } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const LeggTil = () => {
   const imageRef = useRef<HTMLImageElement | null>(null);
+
+  const router = useRouter();
+
+  const { query = {} } = router;
+  const { id = "" } = query;
 
   const [addRating, { isSuccess, isError, isLoading }] = useAddRatingMutation();
 
@@ -32,7 +38,7 @@ const LeggTil = () => {
 
     // Lots of placeholder data here
     addRating({
-      basic: { productId: "12345", productShortName: name },
+      basic: { productId: id ? id : "", productShortName: name },
       imageUrl: "https://via.placeholder.com/300",
       rating: +rating,
       lastChanged: {
