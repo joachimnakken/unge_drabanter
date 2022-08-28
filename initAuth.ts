@@ -1,6 +1,8 @@
 import { init } from "next-firebase-auth";
 
 const initAuth = () => {
+
+  console.log(process.env);
   init({
     authPageURL: "/logg-inn",
     appPageURL: "/app",
@@ -8,28 +10,22 @@ const initAuth = () => {
     logoutAPIEndpoint: "/api/logout",
     firebaseAdminInitConfig: {
       credential: {
-        projectId: "unge-drabanter",
-        clientEmail:
-          "firebase-adminsdk-20336@unge-drabanter.iam.gserviceaccount.com",
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-          ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "",
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL ?? "",
+        privateKey: process.env.FIREBASE_PRIVATE_KEY ?
+          JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
           : undefined,
       },
-      //   databaseURL: "https://mitt-hyttevel-default-rtdb.firebaseio.com",
-      //   databaseURL: "https://unge-drabanter.firebaseio.com",
-      databaseURL: "",
+      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL ?? "",
     },
     firebaseClientInitConfig: {
-      apiKey: "AIzaSyAkrlempNlWrPiAN9lTQc2sJCz8Racz0fA", // required
-      authDomain: "unge-drabanter.firebaseapp.com",
-      //   databaseURL: "https://mitt-hyttevel-default-rtdb.firebaseio.com",
-      databaseURL: "",
-      projectId: "unge-drabanter",
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY ?? "",
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     },
     cookies: {
-      name: "unge-drabanter", // required
-      // Keys are required unless you set `signed` to `false`.
-      // The keys cannot be accessible on the client side.
+      name: process.env.COOKIE_NAMING,
       keys: [
         process.env.COOKIE_SECRET_CURRENT,
         process.env.COOKIE_SECRET_PREVIOUS,
